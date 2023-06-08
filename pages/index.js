@@ -11,7 +11,7 @@ import {
   updateDoc,
   doc,
   addDoc,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 
 export default function Home() {
@@ -29,8 +29,7 @@ export default function Home() {
       text: input,
       completed: false,
     });
-    setInput('')
-  
+    setInput("");
   };
 
   useEffect(() => {
@@ -51,12 +50,11 @@ export default function Home() {
     });
   };
   const deleteTodo = async (id) => {
-    await deleteDoc(doc(db, "todos",id));
+    await deleteDoc(doc(db, "todos", id));
   };
   const handleChange = (e) => {
     setInput(e.target.value);
   };
- 
 
   return (
     <main
@@ -77,13 +75,21 @@ export default function Home() {
             type="text"
             placeholder="Add a task please"
           />
-          <button  onClick={createTodo} className="p-4 border ml-2 bg-[brown] text-white">
+          <button
+            onClick={createTodo}
+            className="p-4 border ml-2 bg-[brown] text-white"
+          >
             <AiOutlinePlus size={30} />
           </button>
         </form>
         <ul>
           {todos.map((todo, i) => (
-            <Todo key={i} todo={todo} toggleComplete={toggleComplete} deletee={deleteTodo} />
+            <Todo
+              key={i}
+              todo={todo}
+              toggleComplete={toggleComplete}
+              deletee={deleteTodo}
+            />
           ))}
         </ul>
         <p className="text-center p-2">You have {todos.length} Tasks</p>
