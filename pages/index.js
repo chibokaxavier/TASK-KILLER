@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import { query, collection, onSnapshot, updateDoc, doc } from "firebase/firestore";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
@@ -20,6 +20,13 @@ export default function Home() {
     });
     return () => unsubscribe();
   }, []);
+
+
+  const toggleComplete = async (todo) => {
+    await updateDoc(doc(db, 'todos', todo.id),{
+      completed:!todo.completed
+    })
+  }
 
   return (
     <main
@@ -44,7 +51,7 @@ export default function Home() {
         </form>
         <ul>
           {todos.map((todo, i) => (
-            <Todo key={i} todo={todo} />
+            <Todo key={i} todo={todo} toggleComplete={toggleComplete} />
           ))}
         </ul>
         <p className="text-center p-2">You have 2 Tasks</p>
