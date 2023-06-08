@@ -11,6 +11,7 @@ import {
   updateDoc,
   doc,
   addDoc,
+  deleteDoc
 } from "firebase/firestore";
 
 export default function Home() {
@@ -49,9 +50,13 @@ export default function Home() {
       completed: !todo.completed,
     });
   };
+  const deleteTodo = async (id) => {
+    await deleteDoc(doc(db, "todos",id));
+  };
   const handleChange = (e) => {
     setInput(e.target.value);
   };
+ 
 
   return (
     <main
@@ -78,10 +83,10 @@ export default function Home() {
         </form>
         <ul>
           {todos.map((todo, i) => (
-            <Todo key={i} todo={todo} toggleComplete={toggleComplete} />
+            <Todo key={i} todo={todo} toggleComplete={toggleComplete} deletee={deleteTodo} />
           ))}
         </ul>
-        <p className="text-center p-2">You have 2 Tasks</p>
+        <p className="text-center p-2">You have {todos.length} Tasks</p>
       </div>
     </main>
   );
